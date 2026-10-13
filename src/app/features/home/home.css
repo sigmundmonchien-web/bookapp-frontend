@@ -1,0 +1,134 @@
+.page {
+  min-height: 100vh;
+  background: var(--color-bg-primary);
+  position: relative;
+  overflow: hidden;
+  padding: var(--space-xl) var(--space-lg);
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* --- Contenu principal --- */
+.content {
+  position: relative;
+  z-index: 1;
+  max-width: 340px;
+  margin: 0 auto;
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+  text-align: center;
+}
+
+.brand {
+  font-family: var(--font-heading);
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--color-text-primary);
+  letter-spacing: -0.5px;
+}
+
+.tagline h1 {
+  font-size: 28px;
+  margin-bottom: var(--space-md);
+  line-height: 1.15;
+}
+
+.tagline .subtitle {
+  font-size: 15px;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+/* --- Boutons --- */
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.btn-primary,
+.btn-secondary {
+  padding: 14px var(--space-md);
+  border-radius: var(--radius-md);
+  font-size: 16px;
+  font-weight: 600;
+  font-family: var(--font-body);
+  text-align: center;
+  transition: opacity 0.2s, background 0.2s;
+  display: inline-block;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: var(--color-accent-primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+}
+
+.btn-secondary {
+  background: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  border: 1.5px solid var(--color-border);
+}
+
+.btn-secondary:hover {
+  border-color: var(--color-accent-primary);
+  color: var(--color-accent-primary);
+}
+
+.logout-hint {
+  margin-top: var(--space-2xl);
+  text-align: center;
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+.logout-link {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--color-accent-primary);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.logout-link:hover {
+  opacity: 0.7;
+  text-decoration: underline;
+}
+
+.profile-link {
+  position: absolute;
+  top: var(--space-lg);
+  right: var(--space-lg);
+  z-index: 2;
+  border-radius: var(--radius-full);
+  transition: transform 0.15s ease;
+}
+
+.profile-link:hover {
+  transform: scale(1.05);
+}
+
+.profile-link:focus-visible {
+  outline: 2px solid var(--color-accent-primary);
+  outline-offset: 3px;
+}

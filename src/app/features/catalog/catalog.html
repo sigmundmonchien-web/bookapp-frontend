@@ -1,0 +1,73 @@
+<div class="page has-bottom-nav">
+  <app-decorative-circles preset="catalogue" />
+
+  <div class="content">
+    <div class="header">
+      <p class="eyebrow">Catalogue</p>
+      <h1>Trouvez votre prochaine lecture</h1>
+    </div>
+
+    <div class="search-wrapper">
+      <svg lucideSearch class="search-icon" size="18" aria-hidden="true"></svg>
+      <input
+        type="text"
+        [formControl]="searchControl"
+        placeholder="Titre, auteur, mot-clé..."
+        class="search-input"
+        autocomplete="off"
+      />
+    </div>
+
+    @switch (state()) {
+      @case ('initial') {
+        <div class="state-message">
+          <div class="state-illustration" aria-hidden="true">✎</div>
+          <p class="state-title">prêt·e à explorer ?</p>
+          <p class="state-hint">Tapez un titre ou un auteur pour découvrir des livres.</p>
+        </div>
+      }
+
+      @case ('loading') {
+        <div class="state-message">
+          <p class="state-title">Recherche en cours…</p>
+        </div>
+      }
+
+      @case ('empty') {
+        <div class="state-message">
+          <p class="state-title">Aucun résultat</p>
+          <p class="state-hint">Essayez d'autres mots-clés.</p>
+        </div>
+      }
+
+      @case ('error') {
+        <div class="state-message error">
+          <p class="state-title">{{ errorMessage() }}</p>
+        </div>
+      }
+
+      @case ('results') {
+        <p class="results-count">
+          {{ books().length }} résultat{{ books().length > 1 ? 's' : '' }}
+        </p>
+        <div class="books-grid">
+          @for (book of books(); track book.googleBooksId) {
+            <a [routerLink]="['/books', book.googleBooksId]" class="book-card">
+              @if (book.coverUrl) {
+                <img [src]="book.coverUrl" [alt]="book.title" class="book-cover" />
+              } @else {
+                <div class="book-cover-placeholder" aria-hidden="true">📖</div>
+              }
+              <div class="book-info">
+                <p class="book-title">{{ book.title }}</p>
+                <p class="book-author">{{ book.author }}</p>
+              </div>
+            </a>
+          }
+        </div>
+      }
+    }
+  </div>
+
+  <app-bottom-nav />
+</div>

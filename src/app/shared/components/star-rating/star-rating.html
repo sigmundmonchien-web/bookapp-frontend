@@ -1,0 +1,23 @@
+<div
+  class="star-rating"
+  [class.readonly]="readonly()"
+  (mouseleave)="onMouseLeave()"
+  role="radiogroup"
+  aria-label="Note en étoiles"
+>
+  @for (position of stars; track position; let i = $index) {
+    <button
+      type="button"
+      class="star"
+      [class.filled]="isFilled()[i]"
+      [attr.aria-label]="position + ' étoile' + (position > 1 ? 's' : '')"
+      [attr.aria-checked]="value() === position"
+      [disabled]="readonly()"
+      role="radio"
+      (click)="onStarClick(position)"
+      (mouseenter)="onStarHover(position)"
+    >
+      <svg lucideStar [attr.size]="size()" aria-hidden="true"></svg>
+    </button>
+  }
+</div>

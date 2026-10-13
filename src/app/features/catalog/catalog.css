@@ -1,0 +1,198 @@
+.page {
+  min-height: 100vh;
+  background: var(--color-bg-primary);
+  position: relative;
+  overflow-x: hidden;
+  padding: var(--space-xl) var(--space-lg);
+  padding-bottom: 100px;
+}
+
+/* --- Contenu principal (au-dessus des cercles) --- */
+.content {
+  position: relative;
+  z-index: 1;
+  max-width: 600px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* --- Header --- */
+.header {
+  margin-bottom: var(--space-xl);
+}
+
+.eyebrow {
+  font-family: var(--font-label);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-accent-primary);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin: 0 0 var(--space-xs) 0;
+}
+
+.header h1 {
+  font-size: 28px;
+  margin: 0;
+  line-height: 1.1;
+}
+
+/* --- Barre de recherche --- */
+.search-wrapper {
+  position: relative;
+  margin-bottom: var(--space-xl);
+}
+
+.search-icon {
+  position: absolute;
+  left: var(--space-md);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-secondary);
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  background: var(--color-bg-secondary);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-full);
+  padding: 14px var(--space-md) 14px 48px;
+  font-size: 15px;
+  color: var(--color-text-primary);
+  transition: border-color 0.2s;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--color-accent-primary);
+}
+
+.search-input::placeholder {
+  color: var(--color-text-secondary);
+  opacity: 0.5;
+}
+
+/* --- États --- */
+.state-message {
+  text-align: center;
+  padding: var(--space-2xl) var(--space-md);
+}
+
+.state-illustration {
+  width: 96px;
+  height: 96px;
+  margin: 0 auto var(--space-md);
+  border-radius: var(--radius-full);
+  background: var(--gradient-decor);
+  opacity: 0.5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+}
+
+.state-title {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-sm);
+}
+
+.state-hint {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+.state-message.error .state-title {
+  color: var(--color-error);
+}
+
+/* --- Résultats --- */
+.results-count {
+  font-family: var(--font-label);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: var(--space-md);
+}
+
+.books-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-md);
+}
+
+@media (min-width: 600px) {
+  .books-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* --- Carte livre --- */
+.book-card {
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-sm);
+}
+
+.book-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.book-cover {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  background: var(--color-border);
+}
+
+.book-cover-placeholder {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  background: var(--gradient-decor);
+  opacity: 0.4;
+}
+
+.book-info {
+  padding: var(--space-sm) var(--space-md) var(--space-md);
+}
+
+.book-title {
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  line-height: 1.2;
+  margin-bottom: 4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.book-author {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

@@ -1,0 +1,190 @@
+.decor-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.decor-circle {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--gradient-decor);
+}
+
+.decor-dot {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--color-accent-primary);
+  opacity: 0.4;
+  width: 20px;
+  height: 20px;
+}
+
+/* ============================
+   PRESET : HOME
+   ============================ */
+[data-preset="home"] .circle-1 {
+  top: -80px;
+  left: -50px;
+  width: 220px;
+  height: 220px;
+  opacity: 0.5;
+}
+[data-preset="home"] .circle-2 {
+  top: 200px;
+  right: -60px;
+  width: 140px;
+  height: 140px;
+  opacity: 0.4;
+}
+[data-preset="home"] .circle-3 {
+  bottom: 100px;
+  left: 20px;
+  width: 60px;
+  height: 60px;
+  background: var(--color-accent-soft);
+  opacity: 0.6;
+}
+[data-preset="home"] .decor-dot {
+  bottom: 200px;
+  right: 40px;
+}
+
+/* ============================
+   PRESET : CATALOGUE
+   ============================ */
+[data-preset="catalogue"] .circle-1 {
+  top: -60px;
+  right: -60px;
+  width: 180px;
+  height: 180px;
+  opacity: 0.5;
+}
+[data-preset="catalogue"] .circle-2 {
+  top: 250px;
+  left: -40px;
+  width: 100px;
+  height: 100px;
+  opacity: 0.35;
+}
+[data-preset="catalogue"] .circle-3 {
+  bottom: 100px;
+  right: -30px;
+  width: 70px;
+  height: 70px;
+  background: var(--color-accent-soft);
+  opacity: 0.5;
+}
+
+/* ============================
+   PRESET : BOOK-DETAIL
+   ============================ */
+[data-preset="book-detail"] .circle-1 {
+  top: -80px;
+  right: -60px;
+  width: 200px;
+  height: 200px;
+  opacity: 0.45;
+}
+[data-preset="book-detail"] .circle-2 {
+  top: 380px;
+  left: -50px;
+  width: 100px;
+  height: 100px;
+  opacity: 0.3;
+}
+[data-preset="book-detail"] .circle-3 {
+  bottom: 200px;
+  right: -30px;
+  width: 70px;
+  height: 70px;
+  background: var(--color-accent-soft);
+  opacity: 0.5;
+}
+
+/* ============================
+   PRESET : PROFILE
+   ============================ */
+[data-preset="profile"] .circle-1 {
+  top: -70px;
+  right: -50px;
+  width: 200px;
+  height: 200px;
+  opacity: 0.5;
+}
+[data-preset="profile"] .circle-2 {
+  top: 260px;
+  left: -50px;
+  width: 100px;
+  height: 100px;
+  opacity: 0.35;
+}
+[data-preset="profile"] .circle-3 {
+  bottom: 200px;
+  right: -30px;
+  width: 80px;
+  height: 80px;
+  background: var(--color-accent-soft);
+  opacity: 0.55;
+}
+[data-preset="profile"] .decor-dot {
+  top: 460px;
+  right: 20px;
+}
+
+/* ============================
+   PRESET : DASHBOARD
+   ============================ */
+[data-preset="dashboard"] .circle-1 {
+  top: -70px;
+  right: -50px;
+  width: 190px;
+  height: 190px;
+  opacity: 0.4;
+}
+[data-preset="dashboard"] .circle-2 {
+  top: 350px;
+  left: -60px;
+  width: 110px;
+  height: 110px;
+  opacity: 0.3;
+}
+[data-preset="dashboard"] .circle-3 {
+  bottom: 180px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  background: var(--color-accent-soft);
+  opacity: 0.55;
+}
+
+/* ============================
+   PRESET : SIMILAR-USERS
+   ============================ */
+[data-preset="similar-users"] .circle-1 {
+  top: -70px;
+  right: -60px;
+  width: 200px;
+  height: 200px;
+  opacity: 0.45;
+}
+[data-preset="similar-users"] .circle-2 {
+  top: 380px;
+  left: -50px;
+  width: 100px;
+  height: 100px;
+  opacity: 0.3;
+}
+[data-preset="similar-users"] .circle-3 {
+  bottom: 250px;
+  right: -30px;
+  width: 70px;
+  height: 70px;
+  background: var(--color-accent-soft);
+  opacity: 0.55;
+}
+[data-preset="similar-users"] .decor-dot {
+  top: 560px;
+  right: 30px;
+}

@@ -1,1 +1,156 @@
 /* You can add global styles to this file, and also import other style files */
+/* ==========================================================================
+   EI BookApp — Styles globaux
+   Variables CSS de la charte graphique + reset de base
+   ========================================================================== */
+
+/* --- Variables globales (design tokens) --- */
+:root {
+  /* Couleurs de fond */
+  --color-bg-primary: #FFFAF0;
+  --color-bg-secondary: #FFFFFF;
+
+  /* Dégradé décoratif (à utiliser uniquement pour le décor, jamais pour les actions) */
+  --gradient-decor: linear-gradient(135deg, #FFF7AD, #FFA9F9);
+
+  /* Couleurs d'action */
+  --color-accent-primary: #4A9B7F;
+  --color-accent-soft: #B8DCC8;
+  --color-accent-secondary: #FFF7AD;
+  --color-star-active: #E8B04B;
+
+  /* Couleurs de texte */
+  --color-text-primary: #2D1B3D;
+  --color-text-secondary: #6B5A7A;
+
+  /* Autres */
+  --color-border: #F0E5E8;
+  --color-error: #C25757;
+
+  /* Typographie */
+  --font-heading: 'Bricolage Grotesque', 'Segoe UI', sans-serif;
+  --font-label: 'Space Grotesk', 'Segoe UI', sans-serif;
+  --font-body: 'Inter', 'Segoe UI', sans-serif;
+
+  /* Rayons de bordure */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-full: 9999px;
+
+  /* Espacements */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+
+  /* Ombres portées */
+  --shadow-sm: 0 2px 8px rgba(45, 27, 61, 0.06);
+  --shadow-md: 0 4px 16px rgba(45, 27, 61, 0.08);
+}
+
+/* --- Reset minimal --- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Typographie de base --- */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  color: var(--color-text-primary);
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+}
+
+/* --- Réinitialisations utiles --- */
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+input, textarea, select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+a {
+  color: var(--color-accent-primary);
+  text-decoration: none;
+}
+
+/* Réservation d'espace pour la BottomNav sur les pages qui l'affichent */
+.page.has-bottom-nav {
+  padding-bottom: 80px;
+}
+
+/* États d'erreur transverses (chargement de liste échoué) */
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-2xl) var(--space-lg);
+  text-align: center;
+}
+
+.error-message {
+  color: var(--color-text-secondary);
+  font-size: 15px;
+  line-height: 1.5;
+  margin: 0;
+  max-width: 280px;
+}
+
+.retry-button {
+  background: var(--color-accent-primary);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.retry-button:hover {
+  opacity: 0.9;
+}
+
+.retry-button:focus-visible {
+  outline: 2px solid var(--color-accent-primary);
+  outline-offset: 3px;
+}
+
+.alert-info {
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  background: var(--color-accent-soft);
+  color: var(--color-text-primary);
+  border-left: 3px solid var(--color-accent-primary);
+  font-size: 14px;
+  line-height: 1.5;
+}

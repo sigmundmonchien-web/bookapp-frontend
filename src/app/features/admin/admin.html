@@ -1,0 +1,39 @@
+<div class="page has-bottom-nav">
+  <app-decorative-circles preset="dashboard" />
+
+  <header class="admin-header">
+    <a routerLink="/" class="back-button" aria-label="Retour à l'accueil">
+      <svg lucideArrowLeft class="icon" size="24" aria-hidden="true"></svg>
+    </a>
+    <div class="header-text">
+      <span class="admin-badge">Administration</span>
+      <h1 class="page-title">Espace admin</h1>
+    </div>
+    <button type="button" class="logout-button" (click)="logout()" aria-label="Se déconnecter">
+      <svg lucideLogOut class="icon" size="20" aria-hidden="true"></svg>
+    </button>
+  </header>
+
+  <nav class="admin-tabs" aria-label="Navigation admin">
+    <a
+      routerLink="stats"
+      routerLinkActive="active"
+      class="admin-tab"
+    >
+      Statistiques
+    </a>
+    <a
+      routerLink="utilisateurs"
+      routerLinkActive="active"
+      class="admin-tab"
+    >
+      Utilisateurs
+    </a>
+  </nav>
+
+  <main class="admin-content">
+    <router-outlet />
+  </main>
+
+  <app-bottom-nav />
+</div>

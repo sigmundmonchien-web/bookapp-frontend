@@ -1,0 +1,16 @@
+<button
+  type="button"
+  class="action-button"
+  [class.active]="active()"
+  [class.loading]="loading()"
+  [disabled]="loading()"
+  [attr.aria-pressed]="active()"
+  (click)="onClick()"
+>
+  <span class="icon">
+    <ng-content></ng-content>
+  </span>
+  <span class="label">
+    {{ active() ? activeLabel() : inactiveLabel() }}
+  </span>
+</button>

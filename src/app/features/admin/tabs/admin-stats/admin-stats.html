@@ -1,0 +1,88 @@
+@switch (state()) {
+  @case ('loading') {
+    <div class="state-container">
+      <div class="spinner" aria-label="Chargement"></div>
+      <p class="state-text">Chargement des statistiques…</p>
+    </div>
+  }
+
+  @case ('error') {
+    <div class="state-container">
+      <p class="state-text error">{{ errorMessage() }}</p>
+      <button type="button" class="retry-button" (click)="loadStats()">
+        Réessayer
+      </button>
+    </div>
+  }
+
+  @case ('loaded') {
+    @if (stats(); as s) {
+      <section class="stats-grid" aria-label="Chiffres clés">
+        <article class="stat-card">
+          <svg lucideUsers size="24" class="stat-icon" aria-hidden="true"></svg>
+          <span class="stat-value">{{ s.usersCount }}</span>
+          <span class="stat-label">Utilisateur{{ s.usersCount > 1 ? 's' : '' }}</span>
+        </article>
+
+        <article class="stat-card">
+          <svg lucideBook size="24" class="stat-icon" aria-hidden="true"></svg>
+          <span class="stat-value">{{ s.booksCount }}</span>
+          <span class="stat-label">Livre{{ s.booksCount > 1 ? 's' : '' }} référencé{{ s.booksCount > 1 ? 's' : '' }}</span>
+        </article>
+
+        <article class="stat-card">
+          <svg lucideStar size="24" class="stat-icon" aria-hidden="true"></svg>
+          <span class="stat-value">{{ s.ratingsCount }}</span>
+          <span class="stat-label">Note{{ s.ratingsCount > 1 ? 's' : '' }} attribuée{{ s.ratingsCount > 1 ? 's' : '' }}</span>
+        </article>
+
+        <article class="stat-card">
+          <svg lucideMessageSquare size="24" class="stat-icon" aria-hidden="true"></svg>
+          <span class="stat-value">{{ s.reviewsCount }}</span>
+          <span class="stat-label">Avis textuel{{ s.reviewsCount > 1 ? 's' : '' }}</span>
+        </article>
+
+        <article class="stat-card">
+          <svg lucideHeart size="24" class="stat-icon" aria-hidden="true"></svg>
+          <span class="stat-value">{{ s.favoritesCount }}</span>
+          <span class="stat-label">Favori{{ s.favoritesCount > 1 ? 's' : '' }}</span>
+        </article>
+
+        <article class="stat-card">
+          <svg lucideBookmark size="24" class="stat-icon" aria-hidden="true"></svg>
+          <span class="stat-value">{{ s.readingListCount }}</span>
+          <span class="stat-label">Dans les listes à lire</span>
+        </article>
+      </section>
+
+      <section class="top-books" aria-label="Livres les plus notés">
+        <h2 class="section-title">Top 5 des livres les plus notés</h2>
+
+        @if (s.topBooks.length === 0) {
+          <p class="empty-text">Aucun livre n'a encore été noté sur la plateforme.</p>
+        } @else {
+          <ol class="top-books-list">
+            @for (book of s.topBooks; track book.id) {
+              <li class="top-book-item">
+                <div class="top-book-rank">{{ $index + 1 }}</div>
+                <div class="top-book-info">
+                  <h3 class="top-book-title">{{ book.title }}</h3>
+                  <p class="top-book-author">{{ book.author }}</p>
+                </div>
+                <div class="top-book-stats">
+                  <span class="top-book-avg">
+                    <svg lucideStar size="14" class="top-book-star" aria-hidden="true"></svg>
+                    {{ book.averageScore }}
+                  </span>
+                  <span class="top-book-count">
+                    {{ book.ratingsCount }} note{{ book.ratingsCount > 1 ? 's' : '' }}
+                  </span>
+                </div>
+              </li>
+            }
+          </ol>
+        }
+      </section>
+    }
+  }
+}

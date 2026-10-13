@@ -1,0 +1,79 @@
+@switch (state()) {
+  @case ('loading') {
+  <div class="loading-container">
+    <div class="spinner" aria-label="Chargement"></div>
+  </div>
+}
+
+  @case ('error') {
+  <div class="error-container">
+    <p class="error-message">{{ errorMessage() }}</p>
+    <button type="button" class="retry-button" (click)="retry()">
+      Réessayer
+    </button>
+  </div>
+}
+
+  @case ('loaded') {
+    @if (isEmpty()) {
+      <app-empty-state
+        icon="👋"
+        title="On ne vous connaît pas encore"
+        message="Notez ou favorisez quelques livres pour découvrir des lecteurs aux goûts proches des vôtres."
+      />
+    } @else {
+      <ul class="users-list">
+        @for (item of users(); track item.user.id) {
+          <li class="user-card" [class.expanded]="isExpanded(item.user.id)">
+            <button
+              type="button"
+              class="user-header"
+              (click)="toggleExpand(item.user.id)"
+              [attr.aria-expanded]="isExpanded(item.user.id)"
+              [attr.aria-controls]="'user-books-' + item.user.id"
+            >
+              <span class="avatar" aria-hidden="true">
+                {{ getInitial(item.user.pseudo) }}
+              </span>
+              <span class="user-info">
+                <span class="pseudo">{{ item.user.pseudo }}</span>
+                <span class="badge">
+                  {{ item.commonBooks.length }} en commun
+                </span>
+              </span>
+              <span class="chevron" aria-hidden="true">
+                @if (isExpanded(item.user.id)) {
+                  <svg lucideChevronDown size="20"></svg>
+                } @else {
+                  <svg lucideChevronRight size="20"></svg>
+                }
+              </span>
+            </button>
+
+            @if (isExpanded(item.user.id)) {
+              <div
+                class="shared-books"
+                [id]="'user-books-' + item.user.id"
+              >
+                <p class="shared-books-label">Vos livres partagés</p>
+                <div class="books-scroll">
+                  @for (book of item.commonBooks; track book.id) {
+                    <a
+                      [routerLink]="['/books', book.googleBooksId]"
+                      class="book-thumb"
+                    >
+                      <div class="cover-placeholder" aria-hidden="true">
+                        📖
+                      </div>
+                      <span class="book-title">{{ book.title }}</span>
+                    </a>
+                  }
+                </div>
+              </div>
+            }
+          </li>
+        }
+      </ul>
+    }
+  }
+}

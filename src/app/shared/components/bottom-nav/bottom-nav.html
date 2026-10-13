@@ -1,0 +1,52 @@
+<nav class="bottom-nav" aria-label="Navigation principale">
+  <ul class="nav-list">
+    <li class="nav-item-wrapper">
+      <a
+        routerLink="/"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        ariaCurrentWhenActive="page"
+        class="nav-item"
+      >
+        <svg lucideHouse class="nav-icon" size="20" aria-hidden="true"></svg>
+        <span class="nav-label">Accueil</span>
+      </a>
+    </li>
+
+    <li class="nav-item-wrapper">
+      <a
+        routerLink="/catalogue"
+        routerLinkActive="active"
+        ariaCurrentWhenActive="page"
+        class="nav-item"
+      >
+        <svg lucideBookOpen class="nav-icon" size="20" aria-hidden="true"></svg>
+        <span class="nav-label">Catalogue</span>
+      </a>
+    </li>
+
+    <li class="nav-item-wrapper">
+      <a
+        routerLink="/dashboard"
+        routerLinkActive="active"
+        ariaCurrentWhenActive="page"
+        class="nav-item"
+      >
+        <svg lucideLayoutDashboard class="nav-icon" size="20" aria-hidden="true"></svg>
+        <span class="nav-label">Dashboard</span>
+      </a>
+    </li>
+
+    <li class="nav-item-wrapper">
+      <a
+        routerLink="/profil"
+        routerLinkActive="active"
+        ariaCurrentWhenActive="page"
+        class="nav-item"
+      >
+        <svg lucideUser class="nav-icon" size="20" aria-hidden="true"></svg>
+        <span class="nav-label">Profil</span>
+      </a>
+    </li>
+  </ul>
+</nav>

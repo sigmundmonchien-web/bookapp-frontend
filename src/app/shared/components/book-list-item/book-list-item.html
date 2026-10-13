@@ -1,0 +1,20 @@
+<article class="book-item">
+  <a [routerLink]="['/books', book().googleBooksId]" class="book-link">
+    @if (book().coverUrl) {
+      <img
+        [src]="book().coverUrl"
+        [alt]="'Couverture de ' + book().title"
+        class="cover"
+      />
+    } @else {
+      <div class="cover cover-placeholder" aria-hidden="true">📖</div>
+    }
+    <div class="info">
+      <h3 class="title">{{ book().title }}</h3>
+      <p class="author">{{ book().author }}</p>
+      <div class="meta">
+        <ng-content></ng-content>
+      </div>
+    </div>
+  </a>
+</article>

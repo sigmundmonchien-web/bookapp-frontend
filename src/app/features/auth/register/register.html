@@ -1,0 +1,140 @@
+<div class="page">
+  <div class="decor-circle circle-1"></div>
+  <div class="decor-circle circle-2"></div>
+  <div class="decor-circle circle-3"></div>
+  <div class="decor-dot"></div>
+
+  <div class="content">
+    <p class="brand">BookApp</p>
+
+    <div class="header">
+      <h1>Créer un compte</h1>
+      <p class="subtitle">Commencez votre bibliothèque personnelle.</p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form">
+      <div class="field">
+        <label for="email">EMAIL</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="votre@email.com"
+          autocomplete="email"
+        />
+        @if (form.controls.email.touched && form.controls.email.invalid) {
+          <span class="field-error">
+            @if (form.controls.email.errors?.['required']) {
+              L'email est requis.
+            } @else if (form.controls.email.errors?.['email']) {
+              Format d'email invalide.
+            }
+          </span>
+        }
+      </div>
+
+      <div class="field">
+        <label for="pseudo">PSEUDO</label>
+        <input
+          id="pseudo"
+          type="text"
+          formControlName="pseudo"
+          placeholder="Votre pseudo"
+          autocomplete="username"
+        />
+        @if (form.controls.pseudo.touched && form.controls.pseudo.invalid) {
+          <span class="field-error">
+            @if (form.controls.pseudo.errors?.['required']) {
+              Le pseudo est requis.
+            } @else if (form.controls.pseudo.errors?.['minlength']) {
+              Minimum 3 caractères.
+            } @else if (form.controls.pseudo.errors?.['maxlength']) {
+              Maximum 30 caractères.
+            }
+          </span>
+        }
+      </div>
+
+      <div class="field">
+        <label for="password">MOT DE PASSE</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          placeholder="Minimum 8 caractères"
+          autocomplete="new-password"
+        />
+        @if (form.controls.password.touched && form.controls.password.invalid) {
+          <span class="field-error">
+            @if (form.controls.password.errors?.['required']) {
+              Le mot de passe est requis.
+            } @else if (form.controls.password.errors?.['minlength']) {
+              Minimum 8 caractères.
+            }
+          </span>
+        }
+      </div>
+
+      <div class="field">
+        <label for="confirmPassword">CONFIRMER LE MOT DE PASSE</label>
+        <input
+          id="confirmPassword"
+          type="password"
+          formControlName="confirmPassword"
+          placeholder="Retapez votre mot de passe"
+          autocomplete="new-password"
+        />
+        @if (form.controls.confirmPassword.touched && form.controls.confirmPassword.invalid) {
+          <span class="field-error">La confirmation est requise.</span>
+        }
+        @if (form.controls.confirmPassword.touched && form.errors?.['passwordMismatch'] && !form.controls.confirmPassword.errors?.['required']) {
+          <span class="field-error">Les mots de passe ne correspondent pas.</span>
+        }
+      </div>
+
+      <!-- Consentement RGPD : case obligatoire pour créer un compte -->
+      <div class="consent-field">
+        <label class="consent-label">
+          <input
+            id="acceptedPrivacyPolicy"
+            type="checkbox"
+            formControlName="acceptedPrivacyPolicy"
+            class="consent-checkbox"
+          />
+          <span class="consent-text">
+            J'ai lu et j'accepte la
+            <a
+              routerLink="/confidentialite"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="consent-link"
+            >politique de confidentialité</a>
+            d'EI BookApp.
+          </span>
+        </label>
+        @if (form.controls.acceptedPrivacyPolicy.touched && form.controls.acceptedPrivacyPolicy.invalid) {
+          <span class="field-error consent-error">
+            Vous devez accepter la politique de confidentialité pour créer un compte.
+          </span>
+        }
+      </div>
+
+      @if (errorMessage()) {
+        <div class="alert-error">{{ errorMessage() }}</div>
+      }
+
+      <button type="submit" class="btn-primary" [disabled]="loading()">
+        @if (loading()) {
+          Création...
+        } @else {
+          Créer mon compte
+        }
+      </button>
+    </form>
+
+    <p class="footer">
+      Déjà un compte ?
+      <a routerLink="/login">Se connecter</a>
+    </p>
+  </div>
+</div>

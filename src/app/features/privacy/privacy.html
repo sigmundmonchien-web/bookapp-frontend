@@ -1,0 +1,241 @@
+<div class="page has-bottom-nav">
+  <header class="top-bar">
+    <button
+      type="button"
+      class="back-button"
+      (click)="goBack()"
+      aria-label="Revenir à la page précédente"
+    >
+      <svg lucideArrowLeft size="20" aria-hidden="true"></svg>
+      Retour
+    </button>
+    <p class="eyebrow">Vie privée</p>
+    <h1 class="page-title">Politique de confidentialité</h1>
+    <p class="last-updated">Dernière mise à jour : {{ lastUpdated }}</p>
+  </header>
+
+  <article class="content">
+
+    <section class="summary" aria-labelledby="summary-title">
+      <h2 id="summary-title" class="summary-title">En résumé</h2>
+      <p>
+        BookApp collecte uniquement les données nécessaires
+        à ton compte et à ta bibliothèque personnelle : email, pseudo,
+        photo optionnelle, notes et avis sur les livres.
+        Je ne revends rien, je ne partage rien à des tiers publicitaires,
+        et tu peux supprimer ton compte à tout moment depuis ton profil —
+        toutes tes données disparaissent immédiatement.
+      </p>
+    </section>
+
+    <section aria-labelledby="responsible-title">
+      <h2 id="responsible-title">1. Qui est responsable de tes données</h2>
+      <p>
+        BookApp est un projet réalisé dans le cadre du travail
+        de fin d'études de la formation BES Webdeveloper à l'IPEFA
+        de Seraing. Le responsable du traitement des données au sens
+        du RGPD est Suzon Alberty, autrice du projet.
+      </p>
+      <p>
+        Pour toute question sur tes données, tu peux me contacter à :
+        <a href="mailto:alberty_s@live.be" class="contact-link">
+          <svg lucideMail size="14" aria-hidden="true"></svg>
+          contact&#64;bookapp.example
+        </a>
+      </p>
+    </section>
+
+    <section aria-labelledby="data-title">
+      <h2 id="data-title">2. Les données que je collecte</h2>
+      <p>
+        Quand tu crées un compte et utilises l'application,
+        les informations suivantes sont enregistrées dans une base
+        de données hébergée sur le serveur du site :
+      </p>
+      <ul>
+        <li>
+          <strong>Ton adresse email</strong> — pour t'identifier
+          à la connexion. Elle n'est jamais affichée aux autres utilisateurs.
+        </li>
+        <li>
+          <strong>Ton pseudo</strong> — c'est ton identité publique
+          sur l'application (visible sur tes avis et dans la liste
+          des utilisateurs similaires).
+        </li>
+        <li>
+          <strong>Ton mot de passe</strong> — jamais stocké en clair.
+          Il est immédiatement transformé en empreinte cryptographique
+          irréversible (algorithme bcrypt) avant d'être enregistré.
+          Personne, moi comprise, ne peut le lire.
+        </li>
+        <li>
+          <strong>Ta photo de profil</strong> (facultative) — uniquement
+          si tu choisis d'en uploader une. Le fichier est stocké
+          sur le serveur, jamais partagé avec un tiers.
+        </li>
+        <li>
+          <strong>Tes interactions avec les livres</strong> — notes,
+          avis textuels, favoris et liste à lire.
+          Les avis sont visibles par les autres utilisateurs
+          avec ton pseudo à côté.
+        </li>
+        <li>
+          <strong>Ta date d'inscription</strong> — affichée sur ton profil
+          (« Membre depuis... »).
+        </li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="not-collected-title">
+      <h2 id="not-collected-title">3. Ce que je ne collecte pas</h2>
+      <p>Par choix, cette application ne fait pas :</p>
+      <ul>
+        <li>Aucun outil de mesure d'audience (pas de Google Analytics,
+          pas de Matomo, aucun pixel de tracking)</li>
+        <li>Aucun partage de données avec des annonceurs publicitaires</li>
+        <li>Aucune vente ni cession de tes informations à des tiers</li>
+        <li>Aucun cookie de suivi</li>
+        <li>Aucune collecte de ton adresse IP au-delà des logs techniques
+          usuels du serveur</li>
+        <li>Aucune newsletter, aucun email commercial</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="third-parties-title">
+      <h2 id="third-parties-title">4. Les services tiers utilisés</h2>
+      <p>
+        L'application repose sur un seul service extérieur :
+        <strong>l'API Google Books</strong>. Quand tu fais une recherche
+        dans le catalogue, ta requête (le titre ou l'auteur tapé) est
+        transmise à Google pour obtenir les résultats.
+        Aucune donnée personnelle te concernant (email, pseudo, ID de compte)
+        n'accompagne cette requête — Google ne sait pas qui a cherché quoi.
+      </p>
+      <p>
+        Le traitement effectué par Google est soumis à sa propre politique
+        de confidentialité, consultable sur
+        
+        <a
+          href="https://policies.google.com/privacy"
+          target="_blank"
+          rel="noopener noreferrer"
+        >policies.google.com/privacy</a>.
+      </p>
+    </section>
+
+    <section aria-labelledby="storage-title">
+      <h2 id="storage-title">5. La durée de conservation</h2>
+      <p>
+        Tes données sont conservées <strong>tant que ton compte existe</strong>.
+        Il n'y a pas de suppression automatique après une période d'inactivité —
+        tu gardes la main sur ta bibliothèque aussi longtemps que tu le veux.
+      </p>
+      <p>
+        Dès que tu supprimes ton compte (bouton disponible dans ton profil),
+        toutes tes données sont effacées immédiatement et définitivement :
+        ton compte, tes notes, tes avis, tes favoris, ta liste à lire
+        et ta photo de profil disparaissent en une seule opération
+        atomique dans la base de données. Aucune sauvegarde n'est
+        conservée.
+      </p>
+    </section>
+
+    <section aria-labelledby="rights-title">
+      <h2 id="rights-title">6. Tes droits</h2>
+      <p>Le RGPD te garantit plusieurs droits sur tes données.
+        Voici comment les exercer sur BookApp :</p>
+      <ul>
+        <li>
+          <strong>Droit d'accès</strong> — tu peux consulter à tout moment
+          toutes les données te concernant depuis ton profil et ton dashboard
+          (favoris, notes, liste à lire).
+        </li>
+        <li>
+          <strong>Droit de rectification</strong> — tu peux modifier
+          ton pseudo depuis ton profil, changer ta photo,
+          modifier ou supprimer chacune de tes notes et de tes avis
+          depuis la fiche du livre concerné.
+        </li>
+        <li>
+          <strong>Droit à l'effacement</strong> — bouton
+          « Supprimer mon compte » dans la section sensible de ton profil.
+          Suppression immédiate et définitive.
+        </li>
+        <li>
+          <strong>Droit d'opposition et de limitation du traitement</strong> —
+          concrètement, tu exerces ces droits en supprimant ton compte.
+          L'application n'a pas de fonctionnalités « soft »
+          d'opposition (pas de désactivation temporaire).
+        </li>
+        <li>
+          <strong>Droit à la portabilité</strong> — cette fonctionnalité
+          n'est pas encore implémentée dans l'interface (l'export automatique
+          au format JSON ou CSV est envisagé pour une évolution future).
+          En attendant, tu peux me demander manuellement une copie
+          de tes données par email — je te la fournirai dans un délai
+          d'un mois maximum.
+        </li>
+        <li>
+          <strong>Droit d'introduire une réclamation</strong> —
+          si tu estimes que le traitement de tes données ne respecte
+          pas le RGPD, tu peux saisir l'autorité belge de protection
+          des données (APD) sur
+          
+          <a
+            href="https://www.autoriteprotectiondonnees.be"
+            target="_blank"
+            rel="noopener noreferrer"
+          >autoriteprotectiondonnees.be</a>.
+        </li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="cookies-title">
+      <h2 id="cookies-title">7. Cookies et stockage local</h2>
+      <p>
+        BookApp <strong>n'utilise aucun cookie</strong> au sens strict.
+      </p>
+      <p>
+        L'application stocke une seule chose dans ton navigateur,
+        via la technologie <em>localStorage</em> : ton jeton de connexion
+        (JWT). C'est ce qui te permet de rester connectée entre deux visites
+        sans avoir à retaper ton mot de passe.
+        Ce jeton reste uniquement dans ton navigateur, n'est envoyé qu'au
+        serveur de BookApp, et disparaît quand tu te déconnectes
+        ou quand tu supprimes ton compte.
+      </p>
+    </section>
+
+    <section aria-labelledby="security-title">
+      <h2 id="security-title">8. La sécurité de tes données</h2>
+      <p>
+        Plusieurs mesures techniques protègent tes données :
+      </p>
+      <ul>
+        <li>Mots de passe hashés avec bcrypt (un mot de passe volé
+          en base ne pourrait pas être remonté à sa forme originale)</li>
+        <li>Authentification par JWT signé côté serveur
+          (impossible de falsifier un jeton sans la clé secrète)</li>
+        <li>Communication HTTPS en production (chiffrement bout-en-bout
+          entre ton navigateur et le serveur)</li>
+        <li>Politique CORS restrictive : seul le domaine autorisé
+          peut interroger l'API</li>
+        <li>Aucune donnée sensible (comme les moyens de paiement)
+          n'est collectée, puisque l'application est gratuite</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="changes-title">
+      <h2 id="changes-title">9. Modifications de cette politique</h2>
+      <p>
+        Cette politique peut être mise à jour pour refléter des évolutions
+        de l'application ou du cadre légal. La date en haut de page fait foi.
+        En cas de modification importante, je m'engage à te prévenir
+        par un message visible à ta prochaine connexion.
+      </p>
+    </section>
+
+  </article>
+
+  <app-bottom-nav />
+</div>

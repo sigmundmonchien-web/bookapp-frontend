@@ -1,0 +1,56 @@
+<div class="page">
+  <app-decorative-circles preset="home" />
+
+  <div class="content">
+    @if (!isAuthenticated()) {
+      <div class="hero">
+        <p class="brand">BookApp</p>
+
+        <div class="tagline">
+          <h1>Votre prochain coup de cœur vous attend</h1>
+          <p class="subtitle">
+            Découvrez de nouveaux livres, notez vos lectures et retrouvez celles et ceux qui partagent vos goûts.
+          </p>
+        </div>
+
+        <div class="actions">
+          <a routerLink="/register" class="btn-primary">Créer un compte</a>
+          <a routerLink="/login" class="btn-secondary">J'ai déjà un compte</a>
+        </div>
+      </div>
+    } @else {
+      @if (profile(); as p) {
+        <a
+          routerLink="/profil"
+          class="profile-link"
+          aria-label="Aller à mon profil"
+        >
+          <app-avatar
+            [pseudo]="p.pseudo"
+            [photoUrl]="p.photoUrl"
+            [size]="44"
+          />
+        </a>
+      }
+
+      <div class="hero">
+        <p class="brand">BookApp</p>
+
+        <div class="tagline">
+          <h1>Bienvenue !</h1>
+          <p class="subtitle">Explorez le catalogue ou retrouvez vos lectures.</p>
+        </div>
+
+        <div class="actions">
+          <a routerLink="/catalogue" class="btn-primary">Voir le catalogue</a>
+          <a routerLink="/dashboard" class="btn-secondary">Mon Dashboard</a>
+        </div>
+
+        <p class="logout-hint">
+          Envie de partir ?
+          <button type="button" class="logout-link" (click)="logout()">Se déconnecter</button>
+        </p>
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,26 @@
+@if (loading()) {
+  <div class="loading-container">
+    <div class="spinner" aria-label="Chargement"></div>
+  </div>
+} @else if (hasError()) {
+  <div class="error-container">
+    <p class="error-message">Impossible de charger tes notes. Réessaie dans un instant.</p>
+    <button type="button" class="retry-button" (click)="retry()">
+      Réessayer
+    </button>
+  </div>
+} @else if (isEmpty()) {
+  <app-empty-state
+    icon="⭐"
+    title="Aucune note pour l'instant"
+    message="Note les livres que tu as lus pour retrouver tes coups de cœur."
+  />
+} @else {
+  <div class="list">
+    @for (rating of ratings(); track rating.id) {
+      <app-book-list-item [book]="rating.book">
+        <app-star-rating [value]="rating.score" [readonly]="true" [size]="16" />
+      </app-book-list-item>
+    }
+  </div>
+}

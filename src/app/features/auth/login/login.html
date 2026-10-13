@@ -1,0 +1,81 @@
+<div class="page">
+  <!-- Cercles décoratifs -->
+  <div class="decor-circle circle-1"></div>
+  <div class="decor-circle circle-2"></div>
+  <div class="decor-circle circle-3"></div>
+  <div class="decor-dot"></div>
+
+  <div class="content">
+    <p class="brand">BookApp</p>
+
+    <div class="header">
+      <h1>Content de vous revoir</h1>
+      <p class="subtitle">Retrouvez vos livres et vos recommandations.</p>
+    </div>
+
+    @if (successMessage()) {
+  <div class="alert-success">{{ successMessage() }}</div>
+}
+
+@if (infoMessage()) {
+  <div class="alert-info">{{ infoMessage() }}</div>
+}
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form">
+      <div class="field">
+        <label for="email">EMAIL</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="votre@email.com"
+          autocomplete="email"
+        />
+        @if (form.controls.email.touched && form.controls.email.invalid) {
+          <span class="field-error">
+            @if (form.controls.email.errors?.['required']) {
+              L'email est requis.
+            } @else if (form.controls.email.errors?.['email']) {
+              Format d'email invalide.
+            }
+          </span>
+        }
+      </div>
+
+      <div class="field">
+        <label for="password">MOT DE PASSE</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          placeholder="••••••••"
+          autocomplete="current-password"
+        />
+        @if (form.controls.password.touched && form.controls.password.invalid) {
+          <span class="field-error">Le mot de passe est requis.</span>
+        }
+      </div>
+
+      @if (errorMessage()) {
+        <div class="alert-error">{{ errorMessage() }}</div>
+      }
+
+      <button type="submit" class="btn-primary" [disabled]="loading()">
+        @if (loading()) {
+          Connexion...
+        } @else {
+          Se connecter
+        }
+      </button>
+    </form>
+
+    <p class="footer">
+  Pas encore de compte ?
+  <a routerLink="/register">Créer un compte</a>
+</p>
+
+<p class="footer footer-legal">
+  <a routerLink="/confidentialite">Politique de confidentialité</a>
+</p>
+  </div>
+</div>

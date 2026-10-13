@@ -1,0 +1,252 @@
+<div class="page has-bottom-nav">
+  <app-decorative-circles preset="book-detail" />
+  <header class="top-bar">
+    <a routerLink="/catalogue" class="back-button" aria-label="Retour au catalogue">
+      <svg lucideArrowLeft class="icon" size="24" aria-hidden="true"></svg>
+    </a>
+    <h1 class="page-title">Fiche livre</h1>
+  </header>
+
+  @switch (state()) {
+    @case ('loading') {
+      <div class="state-container">
+        <div class="spinner" aria-label="Chargement"></div>
+        <p class="state-text">Chargement du livre…</p>
+      </div>
+    }
+
+    @case ('error') {
+      <div class="state-container">
+        <p class="state-text error">{{ errorMessage() }}</p>
+        <button type="button" class="retry-button" (click)="retry()">
+          Réessayer
+        </button>
+      </div>
+    }
+
+    @case ('loaded') {
+      @if (book(); as b) {
+        <article class="book-detail">
+          <div class="cover-wrapper">
+            @if (b.coverUrl) {
+              <img [src]="b.coverUrl" [alt]="'Couverture de ' + b.title" class="cover" />
+            } @else {
+              <div class="cover cover-placeholder" aria-hidden="true">
+                <span class="placeholder-icon">📖</span>
+              </div>
+            }
+          </div>
+
+          <div class="book-info">
+            <h2 class="book-title">{{ b.title }}</h2>
+            <p class="book-author">{{ b.author }}</p>
+
+            @if (b.genre) {
+              <span class="book-genre">{{ b.genre }}</span>
+            }
+
+            <dl class="book-meta">
+              @if (b.publishedDate) {
+                <div class="meta-item">
+                  <dt>Publié en</dt>
+                  <dd>{{ b.publishedDate }}</dd>
+                </div>
+              }
+              @if (b.pageCount) {
+                <div class="meta-item">
+                  <dt>Pages</dt>
+                  <dd>{{ b.pageCount }}</dd>
+                </div>
+              }
+              <div class="meta-item">
+                <dt>Note moyenne</dt>
+                <dd class="stats-value">
+                  @if (stats().averageScore !== null) {
+                    <svg lucideStar size="16" class="stats-star" aria-hidden="true"></svg>
+                    <span>{{ stats().averageScore }}</span>
+                    <span class="stats-count">· {{ stats().ratingsCount }} note{{ stats().ratingsCount > 1 ? 's' : '' }}</span>
+                  } @else {
+                    <span class="stats-empty">Pas encore noté</span>
+                  }
+                </dd>
+              </div>
+            </dl>
+
+            @if (b.description) {
+              <section class="book-description">
+                <h3 class="section-title">Description</h3>
+                <p class="description-text" [innerHTML]="b.description"></p>
+              </section>
+            }
+
+            <section class="book-actions">
+              <div class="toggle-buttons">
+                <app-action-button
+                  [active]="favoriteId() !== null"
+                  [loading]="favoriteLoading()"
+                  activeLabel="Dans mes favoris"
+                  inactiveLabel="Ajouter aux favoris"
+                  (toggle)="toggleFavorite()"
+                >
+                  <svg lucideHeart size="18" aria-hidden="true"></svg>
+                </app-action-button>
+
+                <app-action-button
+                  [active]="readingListId() !== null"
+                  [loading]="readingListLoading()"
+                  activeLabel="Dans ma liste à lire"
+                  inactiveLabel="Ajouter à ma liste"
+                  (toggle)="toggleReadingList()"
+                >
+                  <svg lucideBookmark size="18" aria-hidden="true"></svg>
+                </app-action-button>
+              </div>
+
+              <div class="rating-block">
+                <h3 class="section-title">Ma note</h3>
+                <app-star-rating
+                  [value]="userRating()"
+                  (valueChange)="onRatingChange($event)"
+                  [size]="32"
+                />
+                @if (userRating() > 0) {
+                  <p class="rating-hint">Vous avez donné {{ userRating() }} étoile{{ userRating() > 1 ? 's' : '' }}.</p>
+                } @else {
+                  <p class="rating-hint">Cliquez sur une étoile pour noter ce livre.</p>
+                }
+
+                <div class="comment-block">
+                  <label for="review-textarea" class="comment-label">
+                    @if (myReview()) {
+                      Modifier mon avis
+                    } @else {
+                      Écrire un avis (facultatif)
+                    }
+                  </label>
+                  <textarea
+                    id="review-textarea"
+                    class="comment-textarea"
+                    [class.disabled]="commentDisabled()"
+                    [class.error]="commentTooLong()"
+                    [disabled]="commentDisabled()"
+                    [ngModel]="commentInput()"
+                    (ngModelChange)="commentInput.set($event)"
+                    [attr.maxlength]="COMMENT_MAX_LENGTH + 50"
+                    rows="4"
+                    [placeholder]="commentDisabled()
+                      ? 'Ajoutez d\'abord une note pour écrire un avis.'
+                      : (myReview() ? 'Modifier votre avis…' : 'Un mot sur ce livre ?')"
+                    [attr.aria-describedby]="'comment-counter comment-status'"
+                  ></textarea>
+
+                  <div class="comment-footer">
+                    <span
+                      id="comment-counter"
+                      class="comment-counter"
+                      [class.error]="commentTooLong()"
+                      aria-live="polite"
+                    >
+                      {{ commentLength() }} / {{ COMMENT_MAX_LENGTH }}
+                    </span>
+
+                    <button
+                      type="button"
+                      class="comment-save"
+                      (click)="saveComment()"
+                      [disabled]="!canSaveComment()"
+                    >
+                      @if (commentStatus() === 'saving') {
+                        Enregistrement…
+                      } @else {
+                        Enregistrer
+                      }
+                    </button>
+                  </div>
+
+                  <p id="comment-status" class="comment-status" aria-live="polite">
+                    @if (commentStatus() === 'saved') {
+                      <span class="status-success">Avis enregistré.</span>
+                    }
+                    @if (commentStatus() === 'error') {
+                      <span class="status-error">{{ commentError() }}</span>
+                    }
+                    @if (commentTooLong()) {
+                      <span class="status-error">L'avis ne peut pas dépasser {{ COMMENT_MAX_LENGTH }} caractères.</span>
+                    }
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            <section class="reviews-section">
+              <h3 class="section-title">
+                Avis des lecteurs
+                @if (reviews().length > 0) {
+                  <span class="reviews-count">({{ reviews().length }})</span>
+                }
+              </h3>
+
+              @if (reviews().length === 0) {
+                <p class="reviews-empty">Aucun avis pour ce livre. Sois le premier à en écrire un !</p>
+              } @else {
+                <ul class="reviews-list">
+                  @for (review of reviews(); track review.id) {
+                    <li class="review-item" [class.review-mine]="review.isMine">
+                      <header class="review-header">
+                        <div class="review-author-block">
+                          <span class="review-author">{{ review.user.pseudo }}</span>
+                          @if (review.isMine) {
+                            <span class="review-mine-badge">Mon avis</span>
+                          }
+                        </div>
+                        <app-star-rating
+                          [value]="review.score"
+                          [size]="16"
+                          [readonly]="true"
+                        />
+                      </header>
+                      <p class="review-text">{{ review.comment }}</p>
+                      <footer class="review-footer">
+                        <time [attr.datetime]="review.createdAt">
+                          {{ review.createdAt | date:'longDate':'':'fr' }}
+                        </time>
+                        @if (review.updatedAt) {
+                          <span class="review-edited">· modifié</span>
+                        }
+
+                        @if (review.isMine) {
+                          <div class="review-actions">
+                            <button
+                              type="button"
+                              class="review-action-btn"
+                              (click)="editMyReview()"
+                              aria-label="Modifier mon avis"
+                            >
+                              <svg lucidePencil size="14" aria-hidden="true"></svg>
+                              <span>Modifier</span>
+                            </button>
+                            <button
+                              type="button"
+                              class="review-action-btn review-action-danger"
+                              (click)="deleteMyReview()"
+                              aria-label="Supprimer mon avis"
+                            >
+                              <svg lucideTrash2 size="14" aria-hidden="true"></svg>
+                              <span>Supprimer</span>
+                            </button>
+                          </div>
+                        }
+                      </footer>
+                    </li>
+                  }
+                </ul>
+              }
+            </section>
+          </div>
+        </article>
+      }
+    }
+  }
+
+  <app-bottom-nav />
+</div>

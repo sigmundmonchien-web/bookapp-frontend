@@ -1,0 +1,20 @@
+.avatar {
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-photo {
+  object-fit: cover;
+  box-shadow: var(--shadow-sm);
+}
+
+.avatar-initial {
+  background: var(--gradient-decor);
+  font-family: var(--font-heading);
+  font-weight: 800;
+  color: var(--color-text-primary);
+  box-shadow: var(--shadow-sm);
+}

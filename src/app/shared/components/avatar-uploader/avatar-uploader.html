@@ -1,0 +1,45 @@
+<div class="uploader">
+  <button
+    type="button"
+    class="avatar-button"
+    (click)="openFilePicker()"
+    [disabled]="uploading()"
+    [attr.aria-label]="photoUrl() !== null ? 'Changer ma photo de profil' : 'Ajouter une photo de profil'"
+  >
+    <app-avatar
+      [pseudo]="pseudo()"
+      [photoUrl]="photoUrl()"
+      [size]="88"
+    />
+    <span class="camera-badge" aria-hidden="true">
+      @if (uploading()) {
+        <span class="spinner-small"></span>
+      } @else {
+        <svg lucideCamera size="16"></svg>
+      }
+    </span>
+  </button>
+
+  @if (photoUrl() !== null && !uploading()) {
+    <button
+      type="button"
+      class="btn-remove"
+      (click)="removePhoto()"
+    >
+      <svg lucideTrash2 size="14" aria-hidden="true"></svg>
+      Retirer
+    </button>
+  }
+
+  @if (errorMessage()) {
+    <p class="error-message">{{ errorMessage() }}</p>
+  }
+
+  <input
+    #fileInput
+    type="file"
+    accept="image/jpeg,image/png,image/webp"
+    (change)="onFileSelected($event)"
+    class="hidden-input"
+  />
+</div>

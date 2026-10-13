@@ -1,0 +1,19 @@
+@if (fullPhotoUrl(); as url) {
+  <img
+    [src]="url"
+    [alt]="'Photo de ' + pseudo()"
+    class="avatar avatar-photo"
+    [style.width.px]="size()"
+    [style.height.px]="size()"
+  />
+} @else {
+  <div
+    class="avatar avatar-initial"
+    aria-hidden="true"
+    [style.width.px]="size()"
+    [style.height.px]="size()"
+    [style.font-size.px]="size() * 0.45"
+  >
+    {{ initial() }}
+  </div>
+}

@@ -1,0 +1,212 @@
+@switch (listState()) {
+  @case ('loading') {
+    <div class="state-container">
+      <div class="spinner" aria-label="Chargement"></div>
+      <p class="state-text">Chargement des utilisateurs…</p>
+    </div>
+  }
+
+  @case ('error') {
+    <div class="state-container">
+      <p class="state-text error">{{ listError() }}</p>
+      <button type="button" class="retry-button" (click)="loadUsers()">Réessayer</button>
+    </div>
+  }
+
+  @case ('loaded') {
+    <p class="list-count">{{ users().length }} utilisateur{{ users().length > 1 ? 's' : '' }} inscrit{{ users().length > 1 ? 's' : '' }}</p>
+
+    <ul class="users-list">
+      @for (user of users(); track user.id) {
+        <li class="user-card">
+          <button
+            type="button"
+            class="user-card-main"
+            (click)="openUserDetail(user.id)"
+            [attr.aria-label]="'Voir le détail de ' + user.pseudo"
+          >
+            <div class="user-identity">
+              <span class="user-pseudo">
+                {{ user.pseudo }}
+                @if (user.roles.includes('ROLE_ADMIN')) {
+                  <span class="admin-tag" title="Administrateur">
+                    <svg lucideShield size="12" aria-hidden="true"></svg>
+                    Admin
+                  </span>
+                }
+              </span>
+              <span class="user-email">{{ user.email }}</span>
+              <span class="user-created">Inscrit le {{ user.createdAt | date:'longDate':'':'fr' }}</span>
+            </div>
+            <div class="user-counts">
+              <span class="user-count-item" [attr.title]="user.counts.ratings + ' notes'">
+                <svg lucideStar size="14" aria-hidden="true"></svg>
+                {{ user.counts.ratings }}
+              </span>
+              <span class="user-count-item" [attr.title]="user.counts.favorites + ' favoris'">
+                <svg lucideHeart size="14" aria-hidden="true"></svg>
+                {{ user.counts.favorites }}
+              </span>
+              <span class="user-count-item" [attr.title]="user.counts.readingList + ' livres à lire'">
+                <svg lucideBookmark size="14" aria-hidden="true"></svg>
+                {{ user.counts.readingList }}
+              </span>
+            </div>
+          </button>
+
+          <button
+            type="button"
+            class="user-delete-btn"
+            (click)="deleteUser(user.id, user.pseudo)"
+            [disabled]="deletingUserId() === user.id"
+            [attr.aria-label]="'Supprimer ' + user.pseudo"
+          >
+            <svg lucideTrash2 size="16" aria-hidden="true"></svg>
+          </button>
+        </li>
+      } @empty {
+        <li class="empty-text">Aucun utilisateur inscrit.</li>
+      }
+    </ul>
+  }
+}
+
+@if (isModalOpen()) {
+  <div class="modal-overlay" (click)="closeModal()" aria-hidden="true"></div>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <header class="modal-header">
+      <h2 id="modal-title" class="modal-title">Détail de l'utilisateur</h2>
+      <button type="button" class="modal-close" (click)="closeModal()" aria-label="Fermer">
+        <svg lucideX size="20" aria-hidden="true"></svg>
+      </button>
+    </header>
+
+    <div class="modal-content">
+      @switch (detailState()) {
+        @case ('loading') {
+          <div class="state-container">
+            <div class="spinner" aria-label="Chargement"></div>
+          </div>
+        }
+
+        @case ('error') {
+          <p class="state-text error">{{ detailError() }}</p>
+        }
+
+        @case ('loaded') {
+          @if (userDetail(); as u) {
+            <section class="user-summary">
+              <div class="user-summary-header">
+                <h3 class="user-summary-pseudo">{{ u.pseudo }}</h3>
+                @if (u.roles.includes('ROLE_ADMIN')) {
+                  <span class="admin-tag">
+                    <svg lucideShield size="12" aria-hidden="true"></svg>
+                    Administrateur
+                  </span>
+                }
+              </div>
+              <p class="user-summary-email">{{ u.email }}</p>
+              <p class="user-summary-created">Inscrit le {{ u.createdAt | date:'longDate':'':'fr' }}</p>
+            </section>
+
+            <section class="user-section">
+              <h4 class="user-section-title">
+                <svg lucideStar size="16" class="section-icon" aria-hidden="true"></svg>
+                Notes et avis ({{ u.ratings.length }})
+              </h4>
+              @if (u.ratings.length === 0) {
+                <p class="empty-text-small">Aucune note.</p>
+              } @else {
+                <ul class="items-list">
+                  @for (rating of u.ratings; track rating.id) {
+                    <li class="item-row">
+                      <div class="item-book">
+                        <span class="item-title">{{ rating.book.title }}</span>
+                        <span class="item-author">{{ rating.book.author }}</span>
+                      </div>
+                      <div class="item-meta">
+                        <span class="item-score">
+                          <svg lucideStar size="12" class="score-star" aria-hidden="true"></svg>
+                          {{ rating.score }}
+                        </span>
+                        @if (rating.comment) {
+                          <span class="item-has-comment" title="Avis textuel présent">
+                            <svg lucideMessageSquare size="12" aria-hidden="true"></svg>
+                          </span>
+                        }
+                      </div>
+                      @if (rating.comment) {
+                        <div class="item-comment">
+                          <blockquote class="item-comment-text">« {{ rating.comment }} »</blockquote>
+                          <button
+                            type="button"
+                            class="item-comment-delete"
+                            (click)="deleteReviewComment(rating.id)"
+                            [disabled]="deletingReviewId() === rating.id"
+                          >
+                            <svg lucideTrash2 size="12" aria-hidden="true"></svg>
+                            Supprimer l'avis
+                          </button>
+                        </div>
+                      }
+                    </li>
+                  }
+                </ul>
+              }
+            </section>
+
+            <section class="user-section">
+              <h4 class="user-section-title">
+                <svg lucideHeart size="16" class="section-icon" aria-hidden="true"></svg>
+                Favoris ({{ u.favorites.length }})
+              </h4>
+              @if (u.favorites.length === 0) {
+                <p class="empty-text-small">Aucun favori.</p>
+              } @else {
+                <ul class="items-list">
+                  @for (fav of u.favorites; track fav.id) {
+                    <li class="item-row-simple">
+                      <span class="item-title">{{ fav.book.title }}</span>
+                      <span class="item-author">{{ fav.book.author }}</span>
+                    </li>
+                  }
+                </ul>
+              }
+            </section>
+
+            <section class="user-section">
+              <h4 class="user-section-title">
+                <svg lucideBookmark size="16" class="section-icon" aria-hidden="true"></svg>
+                Liste à lire ({{ u.readingList.length }})
+              </h4>
+              @if (u.readingList.length === 0) {
+                <p class="empty-text-small">Liste vide.</p>
+              } @else {
+                <ul class="items-list">
+                  @for (item of u.readingList; track item.id) {
+                    <li class="item-row-simple">
+                      <span class="item-title">{{ item.book.title }}</span>
+                      <span class="item-author">{{ item.book.author }}</span>
+                    </li>
+                  }
+                </ul>
+              }
+            </section>
+
+            <footer class="modal-footer">
+              <button
+                type="button"
+                class="modal-delete-btn"
+                (click)="deleteUser(u.id, u.pseudo)"
+                [disabled]="deletingUserId() === u.id"
+              >
+                <svg lucideTrash2 size="16" aria-hidden="true"></svg>
+                Supprimer cet utilisateur
+              </button>
+            </footer>
+          }
+        }
+      }
+    </div>
+  </div>
+}

@@ -1,0 +1,363 @@
+<div class="page has-bottom-nav">
+  <app-decorative-circles preset="profile" />
+  <header class="top-bar">
+    <p class="eyebrow">Mon compte</p>
+    <h1 class="page-title">Profil</h1>
+  </header>
+
+  @switch (state()) {
+    @case ('loading') {
+      <div class="state-container">
+        <div class="spinner" aria-label="Chargement"></div>
+        <p class="state-text">Chargement du profil…</p>
+      </div>
+    }
+
+    @case ('error') {
+      <div class="state-container">
+        <p class="state-text error">{{ errorMessage() }}</p>
+        <button type="button" class="retry-button" (click)="retry()">
+          Réessayer
+        </button>
+      </div>
+    }
+
+    @case ('loaded') {
+      @if (profile(); as p) {
+        <div class="profile-content">
+          <div class="identity">
+            <app-avatar-uploader
+              [pseudo]="p.pseudo"
+              [photoUrl]="p.photoUrl"
+              (photoUpdated)="onPhotoUpdated($event)"
+            />
+            @if (!isEditingPseudo()) {
+              <div class="pseudo-row">
+                <h2 class="pseudo">{{ p.pseudo }}</h2>
+                <button
+                  type="button"
+                  class="edit-pseudo-btn"
+                  (click)="startEditingPseudo()"
+                  aria-label="Modifier mon pseudo"
+                >
+                  <svg lucidePencil size="16" aria-hidden="true"></svg>
+                </button>
+              </div>
+            } @else {
+              <div class="pseudo-edit">
+                <input
+                  type="text"
+                  class="pseudo-input"
+                  [value]="pseudoDraft()"
+                  (input)="onPseudoDraftChange($event)"
+                  (keydown.enter)="savePseudo()"
+                  (keydown.escape)="cancelPseudoEdit()"
+                  [disabled]="savingPseudo()"
+                  maxlength="30"
+                  autofocus
+                  aria-label="Nouveau pseudo"
+                />
+                <button
+                  type="button"
+                  class="pseudo-save"
+                  (click)="savePseudo()"
+                  [disabled]="savingPseudo()"
+                  aria-label="Enregistrer"
+                >
+                  <svg lucideCheck size="18" aria-hidden="true"></svg>
+                </button>
+                <button
+                  type="button"
+                  class="pseudo-cancel"
+                  (click)="cancelPseudoEdit()"
+                  [disabled]="savingPseudo()"
+                  aria-label="Annuler"
+                >
+                  <svg lucideX size="18" aria-hidden="true"></svg>
+                </button>
+              </div>
+              @if (pseudoError()) {
+                <p class="pseudo-error">{{ pseudoError() }}</p>
+              }
+            }
+            <p class="email">{{ p.email }}</p>
+            <p class="member-since">Membre depuis {{ memberSince() }}</p>
+          </div>
+
+          <h3 class="section-label">Ma bibliothèque</h3>
+          <div class="stats">
+            <div class="stat">
+              <span class="stat-value">{{ p.counts.favorites }}</span>
+              <span class="stat-label">Favoris</span>
+            </div>
+            <div class="stat">
+              <span class="stat-value">{{ p.counts.ratings }}</span>
+              <span class="stat-label">Notes</span>
+            </div>
+            <div class="stat">
+              <span class="stat-value">{{ p.counts.readingList }}</span>
+              <span class="stat-label">À lire</span>
+            </div>
+          </div>
+
+          <nav class="shortcuts" aria-label="Raccourcis">
+            <a routerLink="/dashboard/favoris" class="shortcut">
+              <span class="shortcut-icon">
+                <svg lucideHeart size="20" aria-hidden="true"></svg>
+              </span>
+              <span class="shortcut-label">Mes favoris</span>
+              <span class="shortcut-arrow">
+                <svg lucideChevronRight size="20" aria-hidden="true"></svg>
+              </span>
+            </a>
+
+            <a routerLink="/dashboard/notes" class="shortcut">
+              <span class="shortcut-icon">
+                <svg lucideStar size="20" aria-hidden="true"></svg>
+              </span>
+              <span class="shortcut-label">Mes notes</span>
+              <span class="shortcut-arrow">
+                <svg lucideChevronRight size="20" aria-hidden="true"></svg>
+              </span>
+            </a>
+
+            <a routerLink="/dashboard/affinites" class="shortcut">
+              <span class="shortcut-icon">
+                <svg lucideUsers size="20" aria-hidden="true"></svg>
+              </span>
+              <span class="shortcut-label">Utilisateurs similaires</span>
+              <span class="shortcut-arrow">
+                <svg lucideChevronRight size="20" aria-hidden="true"></svg>
+              </span>
+            </a>
+          </nav>
+
+          <button type="button" class="logout-button" (click)="logout()">
+            <svg lucideLogOut size="18" aria-hidden="true"></svg>
+            Se déconnecter
+          </button>
+
+                    <!-- Aide et contact -->
+          <section class="help-zone" aria-labelledby="help-zone-title">
+            <h3 id="help-zone-title" class="section-label">Aide</h3>
+            <button
+              type="button"
+              class="help-button"
+              (click)="openContactModal()"
+            >
+              <span class="help-icon">
+                <svg lucideMessageCircle size="20" aria-hidden="true"></svg>
+              </span>
+              <span class="help-text">
+                <span class="help-title">Besoin d'aide ?</span>
+                <span class="help-subtitle">Une question, un bug, une suggestion</span>
+              </span>
+              <span class="help-arrow">
+                <svg lucideChevronRight size="20" aria-hidden="true"></svg>
+              </span>
+            </button>
+
+            <a routerLink="/confidentialite" class="help-button">
+              <span class="help-icon">
+                <svg lucideAlertTriangle size="20" aria-hidden="true"></svg>
+              </span>
+              <span class="help-text">
+                <span class="help-title">Politique de confidentialité</span>
+                <span class="help-subtitle">Comment tes données sont utilisées</span>
+              </span>
+              <span class="help-arrow">
+                <svg lucideChevronRight size="20" aria-hidden="true"></svg>
+              </span>
+            </a>
+          </section>
+
+          <!-- Suppression de compte, volontairement discrète -->
+          <button
+            type="button"
+            class="delete-account-link"
+            (click)="openDeleteModal()"
+          >
+            <svg lucideTrash2 size="14" aria-hidden="true"></svg>
+            Supprimer mon compte
+          </button>
+        </div>
+      }
+    }
+  }
+
+  <!-- Modale de confirmation de suppression -->
+  @if (showDeleteModal() && profile(); as p) {
+    <div
+      class="modal-overlay"
+      (click)="closeDeleteModal()"
+      role="presentation"
+    >
+      <div
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="delete-modal-title"
+        aria-describedby="delete-modal-desc"
+        (click)="$event.stopPropagation()"
+      >
+        <div class="modal-header">
+          <span class="modal-icon" aria-hidden="true">
+            <svg lucideAlertTriangle size="24"></svg>
+          </span>
+          <h2 id="delete-modal-title" class="modal-title">
+            Supprimer ton compte
+          </h2>
+        </div>
+
+        <p id="delete-modal-desc" class="modal-description">
+          Cette action est <strong>irréversible</strong>.
+          Toutes tes données personnelles, notes, avis, favoris et liste à lire
+          seront définitivement effacés.
+        </p>
+
+        <p class="modal-instruction">
+          Pour confirmer, tape ton pseudo
+          <strong>{{ p.pseudo }}</strong> dans le champ ci-dessous :
+        </p>
+
+        <input
+          type="text"
+          class="modal-input"
+          [value]="deleteConfirmInput()"
+          (input)="onDeleteConfirmInputChange($event)"
+          (keydown.escape)="closeDeleteModal()"
+          [disabled]="deletingAccount()"
+          [attr.placeholder]="p.pseudo"
+          autocomplete="off"
+          autocapitalize="off"
+          spellcheck="false"
+          aria-label="Tape ton pseudo pour confirmer la suppression"
+        />
+
+        @if (deleteError()) {
+          <p class="modal-error" role="alert">{{ deleteError() }}</p>
+        }
+
+        <div class="modal-actions">
+          <button
+            type="button"
+            class="modal-cancel"
+            (click)="closeDeleteModal()"
+            [disabled]="deletingAccount()"
+          >
+            Annuler
+          </button>
+          <button
+            type="button"
+            class="modal-confirm"
+            (click)="confirmDeleteAccount()"
+            [disabled]="!canDelete()"
+          >
+            @if (deletingAccount()) {
+              Suppression…
+            } @else {
+              Supprimer définitivement
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+    <!-- Modale de contact -->
+  @if (showContactModal()) {
+    <div
+      class="modal-overlay"
+      (click)="closeContactModal()"
+      role="presentation"
+    >
+      <div
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="contact-modal-title"
+        (click)="$event.stopPropagation()"
+      >
+        <div class="modal-header">
+          <span class="modal-icon contact-icon" aria-hidden="true">
+            <svg lucideMessageCircle size="24"></svg>
+          </span>
+          <h2 id="contact-modal-title" class="modal-title">
+            Besoin d'aide ?
+          </h2>
+        </div>
+
+        @if (contactSuccess()) {
+          <p class="modal-success" role="status">{{ contactSuccess() }}</p>
+          <div class="modal-actions">
+            <button
+              type="button"
+              class="modal-cancel"
+              (click)="closeContactModal()"
+            >
+              Fermer
+            </button>
+          </div>
+        } @else {
+          <p class="modal-description">
+            Décris ton problème ou ta question. Je te répondrai
+            à l'adresse de ton compte.
+          </p>
+
+          <label class="contact-label" for="contact-subject">Sujet</label>
+          <input
+            id="contact-subject"
+            type="text"
+            class="modal-input"
+            [value]="contactSubject()"
+            (input)="onContactSubjectChange($event)"
+            [disabled]="sendingContact()"
+            maxlength="100"
+            placeholder="Résume ta demande en quelques mots"
+          />
+
+          <label class="contact-label" for="contact-message">Message</label>
+          <textarea
+            id="contact-message"
+            class="modal-textarea"
+            [value]="contactMessage()"
+            (input)="onContactMessageChange($event)"
+            [disabled]="sendingContact()"
+            maxlength="2000"
+            rows="6"
+            placeholder="Explique ce qui se passe…"
+          ></textarea>
+          <p class="char-counter">{{ messageRemaining() }} caractères restants</p>
+
+          @if (contactError()) {
+            <p class="modal-error" role="alert">{{ contactError() }}</p>
+          }
+
+          <div class="modal-actions">
+            <button
+              type="button"
+              class="modal-cancel"
+              (click)="closeContactModal()"
+              [disabled]="sendingContact()"
+            >
+              Annuler
+            </button>
+            <button
+              type="button"
+              class="modal-send"
+              (click)="sendContact()"
+              [disabled]="!canSendContact()"
+            >
+              @if (sendingContact()) {
+                Envoi…
+              } @else {
+                <svg lucideSend size="16" aria-hidden="true"></svg>
+                Envoyer
+              }
+            </button>
+          </div>
+        }
+      </div>
+    </div>
+  }
+  <app-bottom-nav />
+</div>

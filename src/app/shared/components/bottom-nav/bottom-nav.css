@@ -1,0 +1,93 @@
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+
+  background: var(--color-bg-secondary);
+  border-top: 1px solid var(--color-border);
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.04);
+
+  padding: var(--space-sm) 0;
+  padding-bottom: max(var(--space-sm), env(safe-area-inset-bottom));
+}
+
+.nav-list {
+  /* On enlève les styles par défaut de la <ul> pour retrouver
+     le look de la nav horizontale. Le rôle sémantique de liste
+     est préservé pour les lecteurs d'écran malgré list-style: none. */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.nav-item-wrapper {
+  /* Chaque <li> prend une part égale de la largeur.
+     Cliquer sur le padding vide entre l'icône et le bord tactile
+     reste inactif — c'est le <a> à l'intérieur qui capte le clic. */
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+
+  width: 100%;
+  padding: var(--space-xs) var(--space-sm);
+
+  text-decoration: none;
+  color: var(--color-text-secondary);
+
+  font-family: var(--font-label);
+  font-size: 11px;
+  font-weight: 500;
+
+  border-radius: var(--radius-sm);
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.nav-item:hover {
+  color: var(--color-text-primary);
+}
+
+.nav-item.active {
+  color: var(--color-accent-primary);
+  font-weight: 600;
+}
+
+/* Focus clavier explicite : anneau à la couleur accent,
+   cohérent avec le reste de l'app. :focus-visible ne se déclenche
+   que sur navigation clavier (Tab), pas sur clic souris — évite
+   d'afficher un focus disgracieux quand un utilisateur voyant
+   clique simplement sur un onglet. */
+.nav-item:focus-visible {
+  outline: 2px solid var(--color-accent-primary);
+  outline-offset: -2px;
+  background: var(--color-bg-primary);
+}
+
+.nav-icon {
+  display: block;
+}
+
+.nav-label {
+  line-height: 1;
+}
+
+@media (min-width: 600px) {
+  .bottom-nav {
+    max-width: 600px;
+    margin: 0 auto;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+  }
+}

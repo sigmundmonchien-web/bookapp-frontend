@@ -1,0 +1,218 @@
+.page {
+  min-height: 100vh;
+  background: var(--color-bg-primary);
+  position: relative;
+  overflow: hidden;
+  padding: var(--space-xl) var(--space-lg);
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- Cercles décoratifs --- */
+.decor-circle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.circle-1 {
+  top: -70px;
+  right: -60px;
+  width: 200px;
+  height: 200px;
+  background: var(--gradient-decor);
+  opacity: 0.5;
+}
+
+.circle-2 {
+  top: 140px;
+  left: -50px;
+  width: 100px;
+  height: 100px;
+  background: var(--gradient-decor);
+  opacity: 0.35;
+}
+
+.circle-3 {
+  bottom: 60px;
+  right: -30px;
+  width: 90px;
+  height: 90px;
+  background: var(--color-accent-soft);
+  opacity: 0.6;
+}
+
+.decor-dot {
+  position: absolute;
+  top: 400px;
+  left: 30px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-accent-primary);
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* --- Contenu principal --- */
+.content {
+  position: relative;
+  z-index: 1;
+  max-width: 340px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.brand {
+  font-family: var(--font-heading);
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--color-text-primary);
+  text-align: center;
+  margin-top: var(--space-lg);
+  margin-bottom: 60px;
+  letter-spacing: -0.5px;
+}
+
+.header {
+  margin-bottom: var(--space-xl);
+}
+
+.header h1 {
+  font-size: 28px;
+  margin-bottom: var(--space-sm);
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+/* --- Formulaire --- */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field label {
+  font-family: var(--font-label);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.field input {
+  background: var(--color-bg-secondary);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  font-size: 15px;
+  color: var(--color-text-primary);
+  transition: border-color 0.2s;
+}
+
+.field input:focus {
+  outline: none;
+  border-color: var(--color-accent-primary);
+}
+
+.field input::placeholder {
+  color: var(--color-text-secondary);
+  opacity: 0.5;
+}
+
+.field-error {
+  font-size: 12px;
+  color: var(--color-error);
+  margin-top: 2px;
+}
+
+.alert-success {
+  background: rgba(74, 155, 127, 0.1);
+  color: var(--color-accent-primary);
+  padding: 12px var(--space-md);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: var(--space-md);
+}
+
+.alert-error {
+  background: rgba(194, 87, 87, 0.1);
+  color: var(--color-error);
+  padding: 12px var(--space-md);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  text-align: center;
+}
+
+.alert-info {
+  background: rgba(74, 155, 127, 0.08);
+  color: var(--color-text-primary);
+  border-left: 3px solid var(--color-accent-primary);
+  padding: 12px var(--space-md);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  text-align: left;
+  margin-bottom: var(--space-md);
+  line-height: 1.5;
+}
+
+/* --- Bouton principal --- */
+.btn-primary {
+  background: var(--color-accent-primary);
+  color: white;
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  font-size: 16px;
+  font-weight: 600;
+  font-family: var(--font-body);
+  transition: opacity 0.2s;
+  margin-top: var(--space-sm);
+}
+
+.btn-primary:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* --- Pied de page --- */
+.footer {
+  text-align: center;
+  margin-top: var(--space-xl);
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+.footer a {
+  color: var(--color-accent-primary);
+  font-weight: 600;
+}
+
+.footer-legal {
+  margin-top: var(--space-sm);
+  font-size: 12px;
+}
+
+.footer-legal a {
+  color: var(--color-text-secondary);
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.footer-legal a:hover {
+  color: var(--color-accent-primary);
+}

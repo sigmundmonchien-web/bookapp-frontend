@@ -1,0 +1,61 @@
+<div class="page has-bottom-nav">
+  <app-decorative-circles preset="dashboard" />
+
+  <header class="top-bar">
+    <p class="eyebrow">Ma bibliothèque</p>
+    <h1 class="page-title">Dashboard</h1>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Onglets du dashboard">
+    <a
+      routerLink="/dashboard/favoris"
+      routerLinkActive="active"
+      role="tab"
+      class="tab"
+    >
+      Favoris
+      @if (counts(); as c) {
+        <span class="tab-count">({{ c.favorites }})</span>
+      }
+    </a>
+
+    <a
+      routerLink="/dashboard/notes"
+      routerLinkActive="active"
+      role="tab"
+      class="tab"
+    >
+      Notes
+      @if (counts(); as c) {
+        <span class="tab-count">({{ c.ratings }})</span>
+      }
+    </a>
+
+    <a
+      routerLink="/dashboard/a-lire"
+      routerLinkActive="active"
+      role="tab"
+      class="tab"
+    >
+      À lire
+      @if (counts(); as c) {
+        <span class="tab-count">({{ c.readingList }})</span>
+      }
+    </a>
+
+    <a
+      routerLink="/dashboard/affinites"
+      routerLinkActive="active"
+      role="tab"
+      class="tab"
+    >
+      Affinités
+    </a>
+  </nav>
+
+  <div class="tab-content">
+    <router-outlet />
+  </div>
+
+  <app-bottom-nav />
+</div>
